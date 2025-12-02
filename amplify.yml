@@ -3,6 +3,7 @@ backend:
   phases:
     build:
       commands:
+        - nvm install 18
         - nvm use 18
         - cd server
         - npm ci
@@ -11,6 +12,7 @@ frontend:
     preBuild:
       commands:
         - cd .. # This line is critical for the fix
+        - nvm install 18
         - nvm use 18
         - cd client
         - npm ci
