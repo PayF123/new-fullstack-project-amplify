@@ -1,0 +1,66 @@
+```javascript
+// server/index.js
+const express = require('express');
+const cors = require('cors'); // Import the cors package
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+// Middleware to parse JSON bodies
+app.use(express.json());
+// Middleware to enable CORS
+app.use(cors());
+
+// In-memory data store (will be replaced by SQLite later)
+let items = [
+  { "id": 1, "name": "Item One", "description": "This is the first item." },
+  { "id": 2, "name": "Item Two", "description": "This is the second item." },
+  { "id": 3, "name": "Item Three", "description": "This is the third item." }
+];
+
+// GET all items
+app.get('/api/items', (req, res) => {
+  res.json(items);
+});
+
+// POST a new item
+app.post('/api/items', (req, res) => {
+  const newItem = {
+    id: Date.now(), // Simple unique ID generation
+    name: req.body.name,
+    description: req.body.description
+  };
+  items.push(newItem);
+  res.status(201).json(newItem);
+});
+
+// PUT update an item by ID
+app.put('/api/items/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const updatedItemData = req.body;
+  const itemIndex = items.findIndex(item => item.id === id);
+
+  if (itemIndex > -1) {
+    items[itemIndex] = { ...items[itemIndex], ...updatedItemData };
+    res.json(items[itemIndex]);
+  } else {
+    res.status(404).send('Item not found');
+  }
+});
+
+// DELETE an item by ID
+app.delete('/api/items/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const initialLength = items.length;
+  items = items.filter(item => item.id !== id);
+
+  if (items.length < initialLength) {
+    res.status(204).send(); // No Content
+  } else {
+    res.status(404).send('Item not found');
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});
+```

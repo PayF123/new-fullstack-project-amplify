@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "Item One",
+    "description": "This is the first item."
+  },
+  {
+    "id": 2,
+    "name": "Item Two",
+    "description": "This is the second item."
+  },
+  {
+    "id": 3,
+    "name": "Item Three",
+    "description": "This is the third item."
+  },
+  {
+    "id": 4,
+    "name": "New Added Item",
+    "description": "This item was added via POST."
+  }
+]
